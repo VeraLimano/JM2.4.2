@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages = "jm.security.example")
@@ -27,6 +28,13 @@ public class HibernateConfig {
     @Autowired
     public void setEnvironment(Environment environment) {
         this.environment = environment;
+    }
+
+    Properties additionalProperties() {
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.show_sql", "true");
+        return properties;
     }
 
     @Bean
@@ -45,10 +53,9 @@ public class HibernateConfig {
                 = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan("jm.security.example.model");
-
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-
+        em.setJpaProperties(additionalProperties());
         return em;
     }
 
@@ -63,5 +70,6 @@ public class HibernateConfig {
         transactionManager.setEntityManagerFactory(entityManagerFactory.getObject());
         return transactionManager;
     }
+
 }
 
