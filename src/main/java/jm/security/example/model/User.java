@@ -15,7 +15,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long id;
+    private int id;
     @Column
     private String name; // уникальное значение
     @Column
@@ -33,17 +33,18 @@ public class User implements UserDetails {
 
     }
 
-    public User(Long id, String name, String password, Set<Role> roles) {
+    public User(int id, String name, String password, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.password = password;
     }
 
-    public Long getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -91,6 +92,7 @@ public class User implements UserDetails {
         return true;
     }
 
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -102,6 +104,5 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
 
 }

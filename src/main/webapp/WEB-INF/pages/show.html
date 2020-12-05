@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+
+<div>
+    <p>Hello User, this Spring Security example</p>
+</div>
+
+<label for>Name: </label>
+<p th:text="${user.getName()}">VALUE</p>
+<label for>ID: </label>
+<P th:text="${user.getId()}">VALUE</P>
+<label for>Password: </label>
+<P th:text="${user.getPassword()}">VALUE</P>
+<label for>Role: </label>
+<P th:text="${user.getRoles()}">VALUE</P>
+
+<a th:href="@{/admin/{id}/edit(id=${user.getId()})}">Edit</a>
+
+<br/>
+<br/>
+
+<form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}">
+    <input type="submit" value="Delete"/>
+</form>
+
+
+</body>
+</html>

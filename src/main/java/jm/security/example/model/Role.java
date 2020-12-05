@@ -17,12 +17,6 @@ public class Role implements GrantedAuthority {
     @Column(name = "role_name")
     private String role;
 
-//    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
-//    @JoinTable(
-//            name = "users_roles",
-//            joinColumns = @JoinColumn(name="role_id"),
-//            inverseJoinColumns = @JoinColumn(name="user_id")
-//    )
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
@@ -67,9 +61,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", role='" + role + '\'' +
-                '}';
+        return role;
     }
 }
