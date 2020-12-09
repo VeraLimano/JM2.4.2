@@ -17,7 +17,10 @@ public class Role implements GrantedAuthority {
     @Column(name = "role_name")
     private String role;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+//    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+//    @JoinTable(name = "users_roles_tab", joinColumns = @JoinColumn(name = "role_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users;
 
 
@@ -25,9 +28,15 @@ public class Role implements GrantedAuthority {
 
     }
 
-    public Role(Integer id, String role) {
+    public Role(String role, Set<User> users) {
+        this.role = role;
+        this.users = users;
+    }
+
+    public Role(Integer id, String role, Set<User> users) {
         this.id = id;
         this.role = role;
+        this.users = users;
     }
 
     public Integer getId() {

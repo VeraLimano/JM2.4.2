@@ -17,7 +17,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="SpringMVC_Security_Example" />
-          <factory-entry name="entityManagerFactoryBean" value="50787179-7563-4a88-af75-75795f9c0a50" />
+          <factory-entry name="entityManagerFactoryBean" value="28318dcc-2ed6-47fd-82d4-e5ad5247f505" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>

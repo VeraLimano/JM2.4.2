@@ -15,10 +15,17 @@
     <input type="text" th:field="*{password}" id="password"/>
     <br/>
     <br/>
-<!--    <label for="roles">Enter role: </label>-->
-<!--    <input type="text" th:field="*{roles}" id="roles"/>-->
-<!--    <br/>-->
-<!--    <br/>-->
+    <label>Enter role: </label>
+    <br/>
+    <br/>
+    <label>
+        <input type="checkbox" name="userCheck"/>ROLE_USER
+    </label>
+    <label>
+        <input type="checkbox" name="adminCheck"/>ROLE_ADMIN
+    </label>
+    <br/>
+    <br/>
     <input type="submit" value="Create"/>
 </form>
 

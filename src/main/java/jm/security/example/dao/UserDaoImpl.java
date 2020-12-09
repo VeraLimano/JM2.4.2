@@ -1,12 +1,15 @@
 package jm.security.example.dao;
 
+import jm.security.example.model.Role;
 import jm.security.example.model.User;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -20,6 +23,14 @@ public class UserDaoImpl implements UserDao {
                 ("SELECT usName FROM User usName WHERE usName.name = :name2");
         query.setParameter("name2", name);
         return (User) query.getSingleResult();
+    }
+
+    @Override
+    public Role getRole(String role) {
+        Query query = (Query) entityManager.createQuery
+                ("SELECT usRole FROM Role usRole WHERE usRole.role = :name2");
+        query.setParameter("name2", role);
+        return (Role) query.getSingleResult();
     }
 
     @Override
@@ -40,8 +51,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void update(int id, User updateUser) {
         User userChange = (User) show(id);
-        userChange.setName(updateUser.getName());
+        entityManager.merge(updateUser);
     }
+
 
     @Override
     public void delete(int id) {

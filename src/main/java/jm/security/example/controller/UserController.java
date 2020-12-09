@@ -1,5 +1,6 @@
 package jm.security.example.controller;
 
+import jm.security.example.model.Role;
 import jm.security.example.model.User;
 import jm.security.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("")
@@ -60,25 +63,41 @@ public class UserController {
         return "show";
     }
 
+//    @GetMapping(value = "/admin/new")
+//    public String newUser(@ModelAttribute("user") User user) {
+////      возвращает html форму для создания нового юзера
+//        return "new";
+//    }
     @GetMapping(value = "/admin/new")
-    public String newUser(@ModelAttribute("user") User user) {
+    public String newUser(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
 //      возвращает html форму для создания нового юзера
         return "new";
     }
-//
-//    @GetMapping("/admin/new")
-//    public String newUser(Model model) {
-////      возвращает html форму для создания нового юзера
-//            model.addAttribute("user", new User());
-//            return "new";
-//        }
 
     @PostMapping(value = "/admin")
-    public String create(@ModelAttribute ("user") User user) {
-//    принимать на вход post запрос, создавать нового юзера, и добавлять в БД
+    public String create(@ModelAttribute("user") User user,
+                         @RequestParam(required = false) boolean adminCheck,
+                         @RequestParam(required = false) boolean userCheck) {
+        Set<Role> roleList = new HashSet<Role>();
+        if (adminCheck) {
+            roleList.add(userService.getRole("ROLE_ADMIN"));
+        }
+        if (userCheck) {
+            roleList.add(userService.getRole("ROLE_USER"));
+        }
+        user.setRoles(roleList);
         userService.save(user);
         return "redirect:/admin";
     }
+
+//    @PostMapping(value = "/admin")
+//    public String create(@ModelAttribute ("user") User user) {
+////    принимать на вход post запрос, создавать нового юзера, и добавлять в БД
+//        userService.save(user);
+//        return "redirect:/admin";
+//    }
 
     @GetMapping(value = "/admin/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
@@ -87,12 +106,23 @@ public class UserController {
     }
 
     @PatchMapping(value = "/admin/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+    public String update(@PathVariable int id,
+                         @ModelAttribute("user") User user,
+                         @RequestParam(required = false) boolean adminCheck,
+                         @RequestParam(required = false) boolean userCheck) {
+        Set<Role> roleList = new HashSet<Role>();
+        if (adminCheck) {
+            roleList.add(userService.getRole("ROLE_ADMIN"));
+        }
+        if (userCheck) {
+            roleList.add(userService.getRole("ROLE_USER"));
+        }
+        user.setRoles(roleList);
         userService.update(id, user);
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/admin/{id}")
+    @PostMapping("/admin/{id}")
     public String delete(@PathVariable("id") int id) {
         userService.delete(id);
         return "redirect:/admin";

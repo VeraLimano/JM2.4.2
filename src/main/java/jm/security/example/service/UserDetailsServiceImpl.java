@@ -1,6 +1,7 @@
 package jm.security.example.service;
 
 import jm.security.example.dao.UserDao;
+import jm.security.example.model.Role;
 import jm.security.example.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -30,6 +31,12 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     @Transactional
     public User getUserByName(String name) {
         return userDao.getUserByName(name);
+    }
+
+    @Override
+    @Transactional
+    public Role getRole(String role) {
+        return userDao.getRole(role);
     }
 
     @Override
