@@ -30,16 +30,6 @@ public class UserController {
         return "login";
     }
 
-//    @GetMapping(value = "/user")
-//    public String getUserPage() {
-//        return "user";
-//    }
-//
-//    @GetMapping(value = "/admin")
-//    public String getAdminPage() {
-//        return "admin";
-//    }
-
     @GetMapping(value = "/user")
     public String printWelcome(ModelMap model, Principal principal ) {
         String name = principal.getName();//get logged in username
@@ -80,6 +70,7 @@ public class UserController {
     public String create(@ModelAttribute("user") User user,
                          @RequestParam(required = false) boolean adminCheck,
                          @RequestParam(required = false) boolean userCheck) {
+//        принимать на вход post запрос, создавать нового юзера, и добавлять в БД
         Set<Role> roleList = new HashSet<Role>();
         if (adminCheck) {
             roleList.add(userService.getRole("ROLE_ADMIN"));
@@ -91,13 +82,6 @@ public class UserController {
         userService.save(user);
         return "redirect:/admin";
     }
-
-//    @PostMapping(value = "/admin")
-//    public String create(@ModelAttribute ("user") User user) {
-////    принимать на вход post запрос, создавать нового юзера, и добавлять в БД
-//        userService.save(user);
-//        return "redirect:/admin";
-//    }
 
     @GetMapping(value = "/admin/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
